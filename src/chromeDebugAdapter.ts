@@ -86,7 +86,7 @@ export class ChromeDebugAdapter extends CoreDebugAdapter {
             });
 
             return args.noDebug ? undefined :
-                this.doAttach(port, launchUrl || args.urlFilter, args.address, args.timeout, undefined, args.extraCRDPChannelPort);
+                this.doAttach(port, launchUrl || args.urlFilter, args.address, args.timeout, undefined, args.extraCRDPChannelPorts);
         });
     }
 
@@ -111,8 +111,8 @@ export class ChromeDebugAdapter extends CoreDebugAdapter {
         super.commonArgs(args);
     }
 
-    protected doAttach(port: number, targetUrl?: string, address?: string, timeout?: number, websocketUrl?: string, extraCRDPChannelPort?: number): Promise<void> {
-        return super.doAttach(port, targetUrl, address, timeout, websocketUrl, extraCRDPChannelPort).then(() => {
+    protected doAttach(port: number, targetUrl?: string, address?: string, timeout?: number, websocketUrl?: string, extraCRDPChannelPorts?: number[]): Promise<void> {
+        return super.doAttach(port, targetUrl, address, timeout, websocketUrl, extraCRDPChannelPorts).then(() => {
             // Don't return this promise, a failure shouldn't fail attach
             this.globalEvaluate({ expression: 'navigator.userAgent', silent: true })
                 .then(
